@@ -9,17 +9,24 @@
 import UIKit
 
 class BusinessesViewController: UIViewController, UITableViewDataSource,
-    UITableViewDelegate{
+    UITableViewDelegate, UISearchBarDelegate{
     
     @IBOutlet weak var tableView: UITableView!
     
     var businesses: [Business]!
+    
+    let searchBar = UISearchBar()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         tableView.delegate = self
         tableView.dataSource = self
+        searchBar.delegate = self
+        
+        
+        searchBar.sizeToFit()
+        navigationItem.titleView = searchBar
         
         Business.searchWithTerm(term: "Thai", completion: { (businesses: [Business]?, error: Error?) -> Void in
             
@@ -74,7 +81,15 @@ class BusinessesViewController: UIViewController, UITableViewDataSource,
         return cell
     }
 
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        self.searchBar.showsCancelButton = true
+    }
     
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.showsCancelButton = false
+        searchBar.text = ""
+        searchBar.resignFirstResponder()
+    }
     /*
      // MARK: - Navigation
      
