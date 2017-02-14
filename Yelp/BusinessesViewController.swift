@@ -23,6 +23,8 @@ class BusinessesViewController: UIViewController, UITableViewDataSource,
         tableView.delegate = self
         tableView.dataSource = self
         searchBar.delegate = self
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 120
         
         
         searchBar.sizeToFit()
