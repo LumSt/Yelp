@@ -9,13 +9,15 @@
 import UIKit
 
 class BusinessesViewController: UIViewController, UITableViewDataSource,
-    UITableViewDelegate, UISearchBarDelegate{
+    UITableViewDelegate, UISearchBarDelegate, UIScrollViewDelegate{
     
     @IBOutlet weak var tableView: UITableView!
     
     var businesses: [Business]!
     
     let searchBar = UISearchBar()
+    
+    var isMoreDataLoading = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -91,6 +93,44 @@ class BusinessesViewController: UIViewController, UITableViewDataSource,
         searchBar.showsCancelButton = false
         searchBar.text = ""
         searchBar.resignFirstResponder()
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        
+        if (!isMoreDataLoading) {
+            // Calculate the position of one screen length before the bottom of the results
+            let scrollViewContentHeight = tableView.contentSize.height
+            let scrollViewOffsetThreshold = scrollViewContentHeight - tableView.bounds.size.height
+            
+            // when the user has scrolled past the threshold, start requesting
+            if (scrollView.contentOffset.y > scrollViewOffsetThreshold && tableView.isDragging) {
+                isMoreDataLoading = true
+                
+                loadMoreData()
+                print("scrollView did scroll")
+            }
+        }
+        
+    }
+    
+    func loadMoreData() {
+        print("Did load more data")
+        Business.searchWithTerm(term: "Thai", completion: { (businesses: [Business]?, error: Error?) -> Void in
+            
+            self.isMoreDataLoading = false
+            self.businesses = businesses
+            
+            
+            if let businesses = businesses {
+                for business in businesses {
+                    print(business.name!)
+                    print(business.address!)
+                }
+            }
+            
+            self.tableView.reloadData()
+        })
+       
     }
     /*
      // MARK: - Navigation
