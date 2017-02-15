@@ -129,24 +129,22 @@ class BusinessesViewController: UIViewController, UITableViewDataSource,
     
     func loadMoreData() {
         print("Did load more data")
-        Business.searchWithTerm(term: "Thai", completion: { (businesses: [Business]?, error: Error?) -> Void in
+        Business.searchWithTerm(term: "Thai", sort: .distance, categories: nil, deals: true) { (businesses: [Business]?, error: Error?) -> Void in
+            
+            
             
             self.isMoreDataLoading = false
-            
             // Stop the loading indicator
             self.loadingMoreView!.stopAnimating()
             
-            self.businesses = businesses            
-            if let businesses = businesses {
-                for business in businesses {
-                    print(business.name!)
-                    print(business.address!)
-                }
-            }
+            self.businesses.append(contentsOf: businesses!)
             
             self.tableView.reloadData()
-        })
-       
+
+        }
+        
+        
+        
     }
     
      // MARK: - Navigation
