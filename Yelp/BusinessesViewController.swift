@@ -14,10 +14,9 @@ class BusinessesViewController: UIViewController, UITableViewDataSource,
     @IBOutlet weak var tableView: UITableView!
     
     var businesses: [Business]!
-    
     let searchBar = UISearchBar()
-    
     var isMoreDataLoading = false
+    var loadingMoreView:InfiniteScrollActivityView?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,6 +44,16 @@ class BusinessesViewController: UIViewController, UITableViewDataSource,
             
             }
         )
+        
+        // Set up Infinite Scroll loading indicator
+        let frame = CGRect(x: 0, y: tableView.contentSize.height, width: tableView.bounds.size.width, height: InfiniteScrollActivityView.defaultHeight)
+        loadingMoreView = InfiniteScrollActivityView(frame: frame)
+        loadingMoreView!.isHidden = true
+        tableView.addSubview(loadingMoreView!)
+        
+        var insets = tableView.contentInset
+        insets.bottom += InfiniteScrollActivityView.defaultHeight
+        tableView.contentInset = insets
         
         /* Example of Yelp search with more search options specified
          Business.searchWithTerm("Restaurants", sort: .Distance, categories: ["asianfusion", "burgers"], deals: true) { (businesses: [Business]!, error: NSError!) -> Void in
@@ -106,6 +115,11 @@ class BusinessesViewController: UIViewController, UITableViewDataSource,
             if (scrollView.contentOffset.y > scrollViewOffsetThreshold && tableView.isDragging) {
                 isMoreDataLoading = true
                 
+                // Update position of loadingMoreView, and start loading indicator
+                let frame = CGRect(x: 0, y: tableView.contentSize.height, width: tableView.bounds.size.width, height: InfiniteScrollActivityView.defaultHeight)
+                loadingMoreView?.frame = frame
+                loadingMoreView!.startAnimating()
+                
                 loadMoreData()
                 print("scrollView did scroll")
             }
@@ -118,9 +132,11 @@ class BusinessesViewController: UIViewController, UITableViewDataSource,
         Business.searchWithTerm(term: "Thai", completion: { (businesses: [Business]?, error: Error?) -> Void in
             
             self.isMoreDataLoading = false
-            self.businesses = businesses
             
+            // Stop the loading indicator
+            self.loadingMoreView!.stopAnimating()
             
+            self.businesses = businesses            
             if let businesses = businesses {
                 for business in businesses {
                     print(business.name!)
@@ -132,14 +148,21 @@ class BusinessesViewController: UIViewController, UITableViewDataSource,
         })
        
     }
-    /*
+    
      // MARK: - Navigation
      
      // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        let cell = sender as! UITableViewCell
+        let indexPath = tableView.indexPath(for: cell)
+        let business = businesses[(indexPath?.row)!]
+        
+        let vc = segue.destination as! DetailViewController
+        vc.business = business
      // Get the new view controller using segue.destinationViewController.
      // Pass the selected object to the new view controller.
      }
-     */
+    
     
 }
