@@ -17,6 +17,7 @@ class BusinessesViewController: UIViewController, UITableViewDataSource,
     let searchBar = UISearchBar()
     var isMoreDataLoading = false
     var loadingMoreView:InfiniteScrollActivityView?
+    var limit = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,7 +39,7 @@ class BusinessesViewController: UIViewController, UITableViewDataSource,
             if let businesses = businesses {
                 for business in businesses {
                     print(business.name!)
-                    print(business.address!)
+                    //print(business.address!)
                 }
             }
             
@@ -120,16 +121,60 @@ class BusinessesViewController: UIViewController, UITableViewDataSource,
                 loadingMoreView?.frame = frame
                 loadingMoreView!.startAnimating()
                 
+                //self.businesses = businesses
                 loadMoreData()
+                
                 print("scrollView did scroll")
             }
+            
+            
         }
         
     }
     
     func loadMoreData() {
         print("Did load more data")
-        Business.searchWithTerm(term: "Thai", sort: .distance, categories: nil, deals: true) { (businesses: [Business]?, error: Error?) -> Void in
+        limit += 10
+        Business.searchWithTerm(term: "Thai", limit:limit, sort: .distance, categories: nil, deals: nil, completion: { (businesses_: [Business]?, error: Error?) -> Void in
+            self.isMoreDataLoading = false
+            // Stop the loading indicator
+            self.loadingMoreView!.stopAnimating()
+            
+            //self.businesses.append(businesses)
+            self.businesses! += businesses_!
+            
+            if let businesses = self.businesses {
+                for business in businesses {
+                    print(business.name!)
+                    //print(business.address!)
+                }
+            }
+            
+            //self.businesses.append(contentsOf: businesses_)
+            
+            self.tableView.reloadData()
+        })
+        
+        
+        /*Business.searchWithTerm(term: "Thai", sort: nil, categories: [""], deals: true, completion: { (businesses: [Business]?, error: Error?) -> Void in
+            
+            self.isMoreDataLoading = false
+            
+            // Stop the loading indicator
+            self.loadingMoreView!.stopAnimating()
+            
+            self.businesses.append(contentsOf: businesses!)
+            
+            self.tableView.reloadData()
+            if let businesses = businesses {
+                for business in businesses {
+                    print(business.name!)
+                    print(business.address!)
+                }
+            }
+            
+        })*/
+        /*Business.searchWithTerm(term: "Thai", sort: .distance, categories: nil, deals: true) { (businesses: [Business]?, error: Error?) -> Void in
             
             
             
@@ -141,7 +186,7 @@ class BusinessesViewController: UIViewController, UITableViewDataSource,
             
             self.tableView.reloadData()
 
-        }
+        }*/
         
         
         
