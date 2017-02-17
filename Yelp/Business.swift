@@ -16,7 +16,6 @@ class Business: NSObject {
     let distance: String?
     let ratingImageURL: URL?
     let reviewCount: NSNumber?
-    //let coordinate: CFAllocator?
     let latitude: Double?
     let longitude: Double?
     
