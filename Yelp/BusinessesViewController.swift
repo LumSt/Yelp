@@ -14,10 +14,12 @@ class BusinessesViewController: UIViewController, UITableViewDataSource,
     @IBOutlet weak var tableView: UITableView!
     
     var businesses: [Business]!
+    var filteredBusinesses: [Business]!
     let searchBar = UISearchBar()
     var isMoreDataLoading = false
     var loadingMoreView:InfiniteScrollActivityView?
-    var limit = 0
+    var offset: Int = 0
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,6 +37,7 @@ class BusinessesViewController: UIViewController, UITableViewDataSource,
         Business.searchWithTerm(term: "Thai", completion: { (businesses: [Business]?, error: Error?) -> Void in
             
             self.businesses = businesses
+            self.filteredBusinesses = self.businesses
             self.tableView.reloadData()
             if let businesses = businesses {
                 for business in businesses {
@@ -76,7 +79,7 @@ class BusinessesViewController: UIViewController, UITableViewDataSource,
     
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if businesses != nil {
-            return businesses!.count
+            return filteredBusinesses!.count
         } else {
             return 0
         }
@@ -90,7 +93,7 @@ class BusinessesViewController: UIViewController, UITableViewDataSource,
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "BusinessCell", for: indexPath) as! BusinessCell
         
-        cell.business = businesses[indexPath.row]
+        cell.business = filteredBusinesses[indexPath.row]
         
         return cell
     }
@@ -134,24 +137,15 @@ class BusinessesViewController: UIViewController, UITableViewDataSource,
     
     func loadMoreData() {
         print("Did load more data")
-        limit += 10
-        Business.searchWithTerm(term: "Thai", limit:limit, sort: .distance, categories: nil, deals: nil, completion: { (businesses_: [Business]?, error: Error?) -> Void in
+        offset += 20
+        Business.searchWithTerm(term: "Thai", offset:offset, sort: .distance, categories: nil, deals: nil, completion: { (businesses: [Business]?, error: Error?) -> Void in
+            
+            
             self.isMoreDataLoading = false
             // Stop the loading indicator
             self.loadingMoreView!.stopAnimating()
-            
-            //self.businesses.append(businesses)
-            self.businesses! += businesses_!
-            
-            if let businesses = self.businesses {
-                for business in businesses {
-                    print(business.name!)
-                    //print(business.address!)
-                }
-            }
-            
-            //self.businesses.append(contentsOf: businesses_)
-            
+            self.businesses.append(contentsOf: businesses!)
+            self.filteredBusinesses = self.businesses
             self.tableView.reloadData()
         })
         
