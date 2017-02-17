@@ -138,7 +138,7 @@ class BusinessesViewController: UIViewController, UITableViewDataSource,
     func loadMoreData() {
         print("Did load more data")
         offset += 20
-        Business.searchWithTerm(term: "Thai", offset:offset, sort: .distance, categories: nil, deals: nil, completion: { (businesses: [Business]?, error: Error?) -> Void in
+        Business.searchWithTerm(term: "Thai", offset:offset, sort: YelpSortMode(rawValue: 0), categories: nil, deals: nil, completion: { (businesses: [Business]?, error: Error?) -> Void in
             
             
             self.isMoreDataLoading = false

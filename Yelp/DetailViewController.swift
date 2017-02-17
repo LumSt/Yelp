@@ -30,11 +30,15 @@ class DetailViewController: UIViewController {
         ratingImageView.setImageWith(business.ratingImageURL!)
         distanceLabel.text = business.distance
         
+        print(business.latitude)
+        print(business.longitude)
         
         // set the region to display, this also sets a correct zoom level
         // set starting center location in San Francisco
-        let centerLocation = CLLocation(latitude: 37.7833, longitude: -122.4167)
+        let centerLocation = CLLocation(latitude: business.latitude!, longitude: business.longitude!)
         goToLocation(location: centerLocation)
+        //addAnnotationAtAddress(address: business.address!, title: business.name!)
+        addAnnotationAtCoordinate(location: centerLocation)
     }
 
     override func didReceiveMemoryWarning() {
@@ -43,9 +47,34 @@ class DetailViewController: UIViewController {
     }
     
     func goToLocation(location: CLLocation) {
-        let span = MKCoordinateSpanMake(0.1, 0.1)
+        let span = MKCoordinateSpanMake(0.05, 0.05)
         let region = MKCoordinateRegionMake(location.coordinate, span)
         mapView.setRegion(region, animated: false)
+    }
+    
+    // add an Annotation with a coordinate: CLLocationCoordinate2D
+    func addAnnotationAtCoordinate(location: CLLocation) {
+        print("did run goToLocation")
+        let annotation = MKPointAnnotation()
+        annotation.coordinate = location.coordinate
+        annotation.title = business.name
+        mapView.addAnnotation(annotation)
+    }
+    
+    // add an annotation with an address: String
+    func addAnnotationAtAddress(address: String, title: String) {
+        let geocoder = CLGeocoder()
+        geocoder.geocodeAddressString(address) { (placemarks, error) in
+            if let placemarks = placemarks {
+                if placemarks.count != 0 {
+                    let coordinate = placemarks.first!.location!
+                    let annotation = MKPointAnnotation()
+                    annotation.coordinate = coordinate.coordinate
+                    annotation.title = title
+                    self.mapView.addAnnotation(annotation)
+                }
+            }
+        }
     }
     
     /*
