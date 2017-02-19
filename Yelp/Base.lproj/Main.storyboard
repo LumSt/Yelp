@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="tZK-Pu-o19">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="tZK-Pu-o19">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -29,7 +29,7 @@
                                         <rect key="frame" x="0.0" y="28" width="320" height="96"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="mRa-od-npL" id="FuX-i5-YcY">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="95"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="95.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="CMl-DN-9OF">
@@ -150,9 +150,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="xKz-mE-WWh">
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="xKz-mE-WWh">
                                 <rect key="frame" x="0.0" y="208" width="320" height="360"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </mapView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Grand Pu Bah" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WBB-FH-bxL">
                                 <rect key="frame" x="26" y="81" width="118" height="22"/>
@@ -197,16 +196,20 @@
                             <constraint firstItem="Dw1-09-IGo" firstAttribute="leading" secondItem="yRH-Y4-pdZ" secondAttribute="trailing" constant="15" id="4z7-R3-yOr"/>
                             <constraint firstItem="2kv-hg-ucy" firstAttribute="top" secondItem="yRH-Y4-pdZ" secondAttribute="bottom" constant="15" id="7uj-fl-KzC"/>
                             <constraint firstItem="Dw1-09-IGo" firstAttribute="bottom" secondItem="yRH-Y4-pdZ" secondAttribute="bottom" id="ByT-n4-EBp"/>
+                            <constraint firstAttribute="trailing" secondItem="xKz-mE-WWh" secondAttribute="trailing" id="Chu-o6-YKl"/>
                             <constraint firstAttribute="trailing" secondItem="a8P-pG-fdc" secondAttribute="trailing" constant="10" id="OX0-9V-RUU"/>
                             <constraint firstItem="2kv-hg-ucy" firstAttribute="leading" secondItem="WBB-FH-bxL" secondAttribute="leading" id="Oto-VA-SJ6"/>
                             <constraint firstItem="h6A-RQ-4DX" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="WBB-FH-bxL" secondAttribute="trailing" constant="15" id="QCl-Aa-h2q"/>
                             <constraint firstItem="h6A-RQ-4DX" firstAttribute="top" secondItem="PuD-JF-oZu" secondAttribute="bottom" constant="15" id="TN5-e6-cfP"/>
                             <constraint firstItem="WBB-FH-bxL" firstAttribute="top" secondItem="PuD-JF-oZu" secondAttribute="bottom" constant="15" id="VJ0-7X-cz1"/>
                             <constraint firstItem="yRH-Y4-pdZ" firstAttribute="top" secondItem="WBB-FH-bxL" secondAttribute="bottom" constant="15" id="Wzi-Tf-QY0"/>
+                            <constraint firstItem="MKd-Ze-cTH" firstAttribute="top" secondItem="xKz-mE-WWh" secondAttribute="bottom" id="Zfg-Ba-XDz"/>
                             <constraint firstItem="yRH-Y4-pdZ" firstAttribute="leading" secondItem="WBB-FH-bxL" secondAttribute="leading" id="b1N-7u-LDq"/>
                             <constraint firstAttribute="trailing" secondItem="h6A-RQ-4DX" secondAttribute="trailing" constant="10" id="e24-29-7Ee"/>
                             <constraint firstItem="WBB-FH-bxL" firstAttribute="leading" secondItem="n13-c2-gkx" secondAttribute="leading" constant="10" id="q7Y-Ug-VBz"/>
+                            <constraint firstItem="xKz-mE-WWh" firstAttribute="top" secondItem="2kv-hg-ucy" secondAttribute="bottom" constant="10" id="s32-1F-P1m"/>
                             <constraint firstItem="a8P-pG-fdc" firstAttribute="top" secondItem="h6A-RQ-4DX" secondAttribute="bottom" constant="15" id="xB6-7S-T4l"/>
+                            <constraint firstItem="xKz-mE-WWh" firstAttribute="leading" secondItem="n13-c2-gkx" secondAttribute="leading" id="yZq-0P-Dsg"/>
                         </constraints>
                     </view>
                     <connections>
